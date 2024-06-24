@@ -58,7 +58,7 @@ public class ChatHandler extends TextWebSocketHandler {
 //        for (WebSocketSession roomSession : roomSessions) {
 //            String oauthId = roomSession.getUri().getQuery().split("&")[1].split("=")[1];
             ChatMessageDto chatMessageDto = new ChatMessageDto(msg, chatRoomId, oauth2Id, oauth2Id);
-            rabbitTemplate.convertAndSend("chat.exchange","room"+chatRoomId.toString(), chatMessageDto);
+            rabbitTemplate.convertAndSend("chat.exchange","room."+chatRoomId.toString(), chatMessageDto);
 //            roomSession.sendMessage(new TextMessage(objectMapper.writeValueAsString(chatMessageDto)));
 //        }
         /*
