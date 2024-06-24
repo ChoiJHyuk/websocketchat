@@ -55,12 +55,15 @@ public class ChatHandler extends TextWebSocketHandler {
         Long chatRoomId = Long.parseLong(session.getUri().getQuery().split("&")[0].split("=")[1]);
         String oauth2Id = session.getUri().getQuery().split("&")[1].split("=")[1];
         Set<WebSocketSession> roomSessions = chatRoomSessionMap.get(chatRoomId);
-//        for (WebSocketSession roomSession : roomSessions) {
-//            String oauthId = roomSession.getUri().getQuery().split("&")[1].split("=")[1];
-            ChatMessageDto chatMessageDto = new ChatMessageDto(msg, chatRoomId, oauth2Id, oauth2Id);
-            rabbitTemplate.convertAndSend("chat.exchange","room."+chatRoomId.toString(), chatMessageDto);
-//            roomSession.sendMessage(new TextMessage(objectMapper.writeValueAsString(chatMessageDto)));
-//        }
+        for (WebSocketSession roomSession : roomSessions) {
+            String oauthId = roomSession.getUri().getQuery().split("&")[1].split("=")[1];
+            ChatMessageDto chatMessageDto = new ChatMessageDto(msg, chatRoomId, oauthId, oauth2Id);
+            /*
+                rabbitTemplate.convertAndSend("chat.exchange","room."+chatRoomId.toString(), chatMessageDto);
+                rabbitmq로 메세지 전송. front에서 메세지 받기
+             */
+            roomSession.sendMessage(new TextMessage(objectMapper.writeValueAsString(chatMessageDto)));
+        }
         /*
             fcm토큰으로 알림 보내기
         */

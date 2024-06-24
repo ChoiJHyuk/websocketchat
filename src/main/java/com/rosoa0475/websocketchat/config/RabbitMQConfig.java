@@ -29,10 +29,12 @@ public class RabbitMQConfig {
     public Queue queue() {
         return new Queue(queueName, false);
     }
+
     @Bean
     public TopicExchange exchange() {
         return new TopicExchange(exchangeName);
     }
+
     @Bean
     public Binding binding(Queue queue, TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(routingKey);
