@@ -25,7 +25,7 @@ public class RabbitMQConfig {
     private final String exchangeName = "chat.exchange";
     private final String routingKey = "room.*";
 
-    @Bean
+    @Bean // controller에서 채팅방 만들 때마다 queue 새로 생성하게 해줘야함. (생략)
     public Queue queue() {
         return new Queue(queueName, false);
     }
